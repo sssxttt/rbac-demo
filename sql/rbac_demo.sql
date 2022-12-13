@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 14/12/2022 02:14:03
+ Date: 14/12/2022 03:32:33
 */
 
 SET NAMES utf8mb4;
@@ -92,11 +92,11 @@ CREATE TABLE `sys_user`  (
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
-  `is_account_non_expired` tinyint(3) UNSIGNED NULL DEFAULT NULL COMMENT '账号是否过期：0 已过期、1 未过期',
-  `is_account_non_locked` tinyint(3) UNSIGNED NULL DEFAULT NULL COMMENT '账号是否被锁定：0 已锁定、1 未锁定',
-  `is_credentials_non_expired` tinyint(3) UNSIGNED NULL DEFAULT NULL COMMENT '账号密码是否过期：0 已过期、1 未过期',
-  `is_enabled` tinyint(3) UNSIGNED NULL DEFAULT NULL COMMENT '账号是否是可用：0 禁用、1 可用',
-  `is_delete` tinyint(3) UNSIGNED NULL DEFAULT NULL COMMENT '逻辑删除标志：0 未删除、1 已删除',
+  `is_account_non_expired` tinyint(3) UNSIGNED NULL DEFAULT 1 COMMENT '账号是否过期：0 已过期、1 未过期',
+  `is_account_non_locked` tinyint(3) UNSIGNED NULL DEFAULT 1 COMMENT '账号是否被锁定：0 已锁定、1 未锁定',
+  `is_credentials_non_expired` tinyint(3) UNSIGNED NULL DEFAULT 1 COMMENT '账号密码是否过期：0 已过期、1 未过期',
+  `is_enabled` tinyint(3) UNSIGNED NULL DEFAULT 1 COMMENT '账号是否是可用：0 禁用、1 可用',
+  `is_delete` tinyint(3) UNSIGNED NULL DEFAULT 0 COMMENT '逻辑删除标志：0 未删除、1 已删除',
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -105,6 +105,8 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
+INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$pQidCqrvY6um8AlHwj0wtuLz/exRYXHEoTQsCW8619Y7mVXO2e3I2', '管理员', '管理员', NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, '2022-12-14 02:40:28', '2022-12-14 02:40:28');
+INSERT INTO `sys_user` VALUES (2, 'user', '$2a$10$pQidCqrvY6um8AlHwj0wtuLz/exRYXHEoTQsCW8619Y7mVXO2e3I2', '欧普通用户', '普通用户', NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, '2022-12-14 03:08:12', '2022-12-14 03:08:12');
 
 -- ----------------------------
 -- Table structure for sys_user_role
