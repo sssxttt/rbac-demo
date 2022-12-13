@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rbac-demo?serverTimezone=UTC
+    username: root
+    password: root
+  redis:
+    host: 192.168.203.100
+    port: 6379
+    password: localvmredis
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+
+custom:
+  config:
+    redis-prefix: token-
+    jwt-secret: jwt123
