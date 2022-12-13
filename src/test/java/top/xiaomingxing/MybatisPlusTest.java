@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import top.xiaomingxing.entity.SysUser;
 import top.xiaomingxing.mapper.SysUserMapper;
+import top.xiaomingxing.service.SysUserService;
 
 import java.util.List;
 @Slf4j
@@ -18,6 +19,8 @@ public class MybatisPlusTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SysUserService sysUserService;
     @Autowired
     private SysUserMapper sysUserMapper;
 
@@ -29,7 +32,9 @@ public class MybatisPlusTest {
 
     @Test
     public void test2() {
-
+        SysUser sysUser = sysUserService.getById("1");
+        sysUser.setGender(1);
+        sysUserService.updateById(sysUser);
     }
 
 }

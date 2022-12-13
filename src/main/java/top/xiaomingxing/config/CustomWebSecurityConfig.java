@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import top.xiaomingxing.filter.ValidTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -26,11 +28,14 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler failureHandler;
 
+    @Autowired
+    private ValidTokenFilter validTokenFilter;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 增加自定义过滤器
-
+        http.addFilterBefore(validTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // 开启 http 相关配置
         http.formLogin()
