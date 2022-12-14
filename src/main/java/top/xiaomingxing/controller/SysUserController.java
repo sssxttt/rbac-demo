@@ -1,5 +1,10 @@
 package top.xiaomingxing.controller;
 
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -8,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import top.xiaomingxing.entity.SysMenu;
 import top.xiaomingxing.entity.SysRole;
 import top.xiaomingxing.entity.SysUser;
 import top.xiaomingxing.response.ResponseResult;
@@ -58,7 +64,6 @@ public class SysUserController {
     }
 
 
-
     @PostMapping("/del")
     public ResponseResult deleteSysUserById(String id) {
         if (StringUtils.isBlank(id)) {
@@ -99,6 +104,47 @@ public class SysUserController {
         loginUserVO.setRoles(collect.toArray(new String[collect.size()]));
 
         return new ResponseResult().ok(loginUserVO);
+    }
+
+
+    @GetMapping("/getSysUserMenus")
+    public ResponseResult getSysUserMenus() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SysUser sysUser = (SysUser) auth.getPrincipal();
+
+        // 获取用户对应的权限列表
+        List<SysMenu> menus = sysUser.getMenus();
+        System.out.println(menus);
+        // 过滤出菜单
+        List<SysMenu> collect = menus.stream()
+                .filter(item -> item != null && item.getType() != 2).collect(Collectors.toList());
+
+        // 配置自定义树的属性
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        treeNodeConfig.setIdKey("id");
+        treeNodeConfig.setParentIdKey("parentId");
+        treeNodeConfig.setDeep(3);
+        treeNodeConfig.setWeightKey("sort");
+
+        // 生成树
+        List<Tree<Long>> treeList = TreeUtil.build(collect, 0L, treeNodeConfig, (treeNode, tree) -> {
+            // 设置属性
+            tree.putExtra("id", treeNode.getId());
+            tree.putExtra("label", treeNode.getLabel());
+            tree.putExtra("parentId", treeNode.getParentId());
+            tree.putExtra("parentLabel", treeNode.getParentLabel());
+            tree.putExtra("code", treeNode.getCode());
+            tree.putExtra("path", treeNode.getPath());
+            tree.putExtra("name", treeNode.getName());
+            tree.putExtra("url", treeNode.getUrl());
+            tree.putExtra("type", treeNode.getType());
+            tree.putExtra("icon", treeNode.getIcon());
+            tree.putExtra("sort", treeNode.getSort());
+//            tree.putExtra("remark", "");
+        });
+
+        return new ResponseResult().ok("请求成功", treeList);
+
     }
 
 
