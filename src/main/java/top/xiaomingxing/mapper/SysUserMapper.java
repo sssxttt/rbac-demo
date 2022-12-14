@@ -2,6 +2,7 @@ package top.xiaomingxing.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import top.xiaomingxing.entity.SysMenu;
 import top.xiaomingxing.entity.SysRole;
 import top.xiaomingxing.entity.SysUser;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     List<SysRole> getRolesById(Long id);
+    List<SysMenu> getMenusById(Long id);
 
 }
 

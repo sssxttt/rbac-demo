@@ -115,13 +115,25 @@ public class SysUser implements Serializable, UserDetails {
     private List<SysRole> roles;
 
     /**
+     * 用户所具有的菜单集合
+     */
+    @TableField(exist = false)
+    private List<SysMenu> menus;
+
+    /**
+     * 用户所具有的权限集合
+     */
+    @TableField(exist = false)
+    private List<GrantedAuthority> authorities;
+
+    /**
      * UserDetails 权限集合
      * 存放的是当前用户的权限编码
      * @return
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

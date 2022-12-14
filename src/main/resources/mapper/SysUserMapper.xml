@@ -41,4 +41,16 @@
         WHERE
             su.id = #{userId}
     </select>
+    <select id="getMenusById" resultType="top.xiaomingxing.entity.SysMenu">
+        SELECT DISTINCT
+            sm.*
+        FROM
+            sys_user su
+                LEFT JOIN sys_user_role sur ON su.id = sur.user_id
+                LEFT JOIN sys_role sr ON sur.role_id = sr.id
+                LEFT JOIN sys_role_menu srm ON sr.id = srm.role_id
+                LEFT JOIN sys_menu sm ON srm.menu_id = sm.id
+        WHERE
+            su.id = #{userId}
+    </select>
 </mapper>

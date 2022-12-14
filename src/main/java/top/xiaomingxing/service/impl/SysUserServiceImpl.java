@@ -3,6 +3,7 @@ package top.xiaomingxing.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.xiaomingxing.entity.SysMenu;
 import top.xiaomingxing.entity.SysRole;
 import top.xiaomingxing.entity.SysUser;
 import top.xiaomingxing.mapper.SysUserMapper;
@@ -24,6 +25,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public List<SysRole> getRolesById(Long id) {
         return sysUserMapper.getRolesById(id);
+    }
+
+    @Override
+    public List<SysMenu> getMenusById(Long id) {
+        return sysUserMapper.getMenusById(id);
     }
 }
 

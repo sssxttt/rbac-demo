@@ -43,13 +43,16 @@ public class ValidTokenFilter extends OncePerRequestFilter {
             // 从请求参数中获取 token
             String requestToken = request.getParameter("token");
             // 从 cookie 中获取 token
-            Cookie[] cookies = request.getCookies();
             String cookieToken = null;
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    cookieToken = cookie.getValue();
+            Cookie[] cookies = request.getCookies();
+            if (Objects.nonNull(cookies) && cookies.length > 0) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("token")) {
+                        cookieToken = cookie.getValue();
+                    }
                 }
             }
+
 
             String token = null;
             List<String> arrayList = new ArrayList<>();
