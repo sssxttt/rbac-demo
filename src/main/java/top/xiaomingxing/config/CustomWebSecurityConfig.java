@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -27,12 +28,15 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private AuthenticationSuccessHandler successHandler;
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
-    private AuthenticationFailureHandler failureHandler;
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
     private ValidTokenFilter validTokenFilter;
+
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
 
 
     @Override
@@ -43,8 +47,8 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 开启 http 相关配置
         http.formLogin()
                 .loginProcessingUrl("/login")
-                .successHandler(successHandler)
-                .failureHandler(failureHandler)
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
@@ -52,7 +56,10 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).disable()
                 .csrf().disable()
-                .cors();
+                .cors()
+                .and()
+                .logout()
+                .logoutSuccessHandler(logoutSuccessHandler);
 
 
     }
