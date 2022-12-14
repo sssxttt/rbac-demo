@@ -65,12 +65,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // 存入 redis 缓存中
         redisUtil.set(redisTokenPrefix + userId, token, expireTime);
 
-        // 创建用户传输类
+        // 创建数据传输类
         LoginUserDTO loginUserDTO = new LoginUserDTO();
-        loginUserDTO.setUserId(String.valueOf(sysUser.getId()));
-        loginUserDTO.setUsername(sysUser.getUsername());
-        loginUserDTO.setAvatar(sysUser.getAvatar());
-        loginUserDTO.setIntroduction(null);
         loginUserDTO.setToken(token);
 
 

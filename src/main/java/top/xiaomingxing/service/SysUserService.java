@@ -1,7 +1,11 @@
 package top.xiaomingxing.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
+import top.xiaomingxing.entity.SysRole;
 import top.xiaomingxing.entity.SysUser;
+
+import java.util.List;
 
 /**
 * @author xiaomingxing
@@ -9,5 +13,5 @@ import top.xiaomingxing.entity.SysUser;
 * @createDate 2022-12-14 02:26:55
 */
 public interface SysUserService extends IService<SysUser> {
-
+    List<SysRole> getRolesById(Long id);
 }

@@ -1,10 +1,10 @@
 package top.xiaomingxing.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import top.xiaomingxing.entity.SysRole;
-import top.xiaomingxing.service.SysRoleService;
-import top.xiaomingxing.mapper.SysRoleMapper;
 import org.springframework.stereotype.Service;
+import top.xiaomingxing.entity.SysRole;
+import top.xiaomingxing.mapper.SysRoleMapper;
+import top.xiaomingxing.service.SysRoleService;
 
 /**
 * @author xiaomingxing

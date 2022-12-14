@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import top.xiaomingxing.entity.SysRole;
 import top.xiaomingxing.entity.SysUser;
 import top.xiaomingxing.service.SysUserService;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -29,6 +31,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (Objects.isNull(sysUser)) {
             throw new UsernameNotFoundException("用户不存在");
         }
+
+        // 根据ID来查询当前用户的角色信息
+        List<SysRole> roles = sysUserService.getRolesById(sysUser.getId());
+        sysUser.setRoles(roles);
+
+        // TODO 根据当前ID查询用户权限
+
 
         return sysUser;
     }

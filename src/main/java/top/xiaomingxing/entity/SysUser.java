@@ -65,6 +65,11 @@ public class SysUser implements Serializable, UserDetails {
     private String avatar;
 
     /**
+     * 简介
+     */
+    private String introduction;
+
+    /**
      * 账号是否过期：0 已过期、1 未过期
      */
     private boolean isAccountNonExpired = true;

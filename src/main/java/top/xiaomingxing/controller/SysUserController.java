@@ -4,13 +4,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import top.xiaomingxing.entity.SysRole;
 import top.xiaomingxing.entity.SysUser;
 import top.xiaomingxing.response.ResponseResult;
 import top.xiaomingxing.service.SysUserService;
+import top.xiaomingxing.vo.LoginUserVO;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -79,6 +85,21 @@ public class SysUserController {
         return new ResponseResult().fail("更新失败");
     }
 
+    @GetMapping("/getSysUserInfo")
+    public ResponseResult getSysUserInfo() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SysUser sysUser = (SysUser) auth.getPrincipal();
+
+        LoginUserVO loginUserVO = new LoginUserVO();
+        loginUserVO.setUsername(sysUser.getUsername());
+        loginUserVO.setAvatar(sysUser.getAvatar());
+        loginUserVO.setIntroduction(sysUser.getIntroduction());
+        List<SysRole> roles = sysUser.getRoles();
+        List<String> collect = roles.stream().filter(Objects::nonNull).map(SysRole::getRoleCode).collect(Collectors.toList());
+        loginUserVO.setRoles(collect.toArray(new String[collect.size()]));
+
+        return new ResponseResult().ok(loginUserVO);
+    }
 
 
 /*    @DeleteMapping("/{id}")
